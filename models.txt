@@ -1,0 +1,121 @@
+Post
+------------------------
+id
+title
+body
+created_at
+updated_at
+comments 
+tags
+
+Comment
+------------------------
+id
+comment
+author_id
+created_at
+updated_at
+
+User
+------------------------
+id
+username
+password
+
+Tags
+------------------------
+ID
+Name
+
+
+Authentication 
+------------------------
+
+Use route middleware
+
+Need session store
+
+var MemStore = require('connect/middleware/session/memory');
+
+app.use(express.cookieParser());
+app.use(express.session({store: MemStore({
+	reapInterval: 6000 * 10 // how often to check for stale sessions
+})}))
+
+// Route Middleware
+function requiresLogin(req, res, next) {
+	if(req.session.user) {
+		next();
+	} else {
+		res.redirect('/sessions/new?redir=' + req.url);
+	}
+}
+
+// Now add the middleware into an example route
+app.get('/', requiresLogin, function(req, res) {
+	res.render('root');
+});
+
+// Session management controllers
+app.get('/sessions/new', function(req, res) {
+	res.render('sessions/new', {locals: {redir: req.query.redir});
+});
+
+h1 login
+form(action='/sessions', method='POST')
+	input(type='hidden', name='redir', value=redir)
+	p
+		label(for='login') Login:
+		input(type='text', name='login', id='login')
+	p
+		label(for='password') Password:
+		input(type='text', name='password', id='password')
+	p
+		input(type='submit')
+
+// TEMP
+var users = require('./users');
+
+// Wire up the POST submit route
+app.post('/sessions', function(req, res) {
+	users.authenticate(req.body.login, req.body.password, function(user) {
+		if(user) { // Auth success
+			req.session.user = user;
+			res.redirect(req.body.redir || '/');
+		} else { // Auth failed
+			req.flash('warn', 'Login Failed'); // Similar to RAILS flash (stored in session)
+			res.render('session/new', {locals: {redir: req.body.redir}});
+		}
+	});
+});
+
+// Create dynamic helper for error messages
+app.dynamicHelpers({
+	session: function(req, res) {
+		return req.session;
+	},
+	flash: function(req, res) {
+		return req.flash();
+	}
+});
+
+// In the layout
+body
+	#main
+		#header
+			- if(session.user)
+				#user= 'logged in as' + session.user.login
+				#logout 
+					a(href='/sessions/destroy') logout
+			- if(flash.warn)
+				p#warn= flash.warn
+
+app.get('/sessions/destroy', functioN(req, res) {
+	delete req.session.user
+	res.redirect('/sessions/new');
+})
+		
+
+
+
+

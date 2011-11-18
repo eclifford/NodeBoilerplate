@@ -1,4 +1,8 @@
-instagram = require("../modules/instagram/instagram.js").createClient("b3481714257943a4974e4e7ba99eb357", "424e2760ecfb4a6e9be301257d401a80")
+Instagram = require('instagram-node-lib');
+
+Instagram.set('client_id', 'b3481714257943a4974e4e7ba99eb357');
+Instagram.set('client_secret', '424e2760ecfb4a6e9be301257d401a80');
+
 
 module.exports = (app) ->
   app.get "/", (req, res) ->
@@ -6,8 +10,14 @@ module.exports = (app) ->
       title: "My Page Bitch"
 
   app.get "/instagram/popular", (req, res) ->
-    instagram.media.popular (media, error) ->
-      res.json media
+    
+    Instagram.media.popular
+      complete: (media)->
+        res.json media
+      error: (errorMessage, errorObject, caller) ->
+        console.log errorMessage 
+
+      
 
   # app.get "/instagram/tags/:tag", (req, res) ->
   #   instagram.tags.media req.params.tag, (media, error) ->
