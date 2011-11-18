@@ -1,12 +1,14 @@
 # Overview
 
-This is a personal project to stich together some common tools when building NodeJS applications. This boilerplate project will give you out of the box some basic 
+This is a personal project to stich together some common tools when building NodeJS applications. 
+
+This setup is heavily inspired by [this project](https://github.com/brikis98/node-backbone-skeleton). 
 
 # Installation
 
 1. `bundle install`
 1. `npm install -d`
-1. `NODE_ENV=development nodemon app/server/lib/server.js` or 'NODE_ENV=development node app/server/lib/server.js'
+1. `NODE_ENV=development nodemon app/server/lib/server.js` or `NODE_ENV=development node` app/server/lib/server.js'
 1. Go to http://localhost:3000
 1. Changes to SASS, Coffeescript, and Templates are recompiled and put in their respective lib directories.
 
