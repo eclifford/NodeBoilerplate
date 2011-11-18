@@ -1,0 +1,61 @@
+body {
+	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	background-color: #000;
+}
+
+.cube {
+	float: left;
+	width: 150px;
+	height: 150px;
+	-webkit-perspective: 600;
+}
+
+.cube .front {
+	float: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 900;
+	width: inherit;
+	height: inherit;
+	background: #6b7077;
+	text-align: center;
+
+	-webkit-transform: rotateY(0deg);
+	-webkit-transform-style: preserve-3d;
+	-webkit-backface-visibility: hidden;
+
+	-webkit-transition: all .4s ease-in-out;
+}
+
+
+.cube.flip .front {
+	z-index: 900;
+	cursor: pointer;
+	-webkit-transform: rotateY(180deg);
+}
+
+.cube.flip .back {
+	z-index: 1000;
+	cursor: pointer;
+	-webkit-transform: rotateY(0deg);
+}
+
+.cube .back {
+	float: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 800;
+	width: inherit;
+	height: inherit;
+	background: #000 url('/images/dream.jpg');
+
+	-webkit-transform: rotateY(-180deg);
+	-webkit-transform-style: preserve-3d;
+	-webkit-backface-visibility: hidden;
+
+	/* -- transition is the magic sauce for animation -- */
+	-webkit-transition: all .4s ease-in-out;
+}
+

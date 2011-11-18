@@ -1,0 +1,3 @@
+(($) ->
+  view = new AppView()
+)(jQuery)

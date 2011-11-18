@@ -1,0 +1,17 @@
+{
+    "name": "NodeBoilerplate"
+  , "version": "0.0.1"
+  , "author": "Eric Clifford"
+  , "description": ""
+  , "private": true
+  , "dependencies": {
+  	  "coffee-script": "1.1.3"
+    , "express": "2.5.0"
+    , "jade": ">= 0.0.1"
+    , "file": "0.1.1"
+    , "glob": "2.0.9"
+    , "settings": "0.0.2"
+    , "underscore": "1.2.2"
+    , "watch-tree": "0.1.1"
+  }
+}

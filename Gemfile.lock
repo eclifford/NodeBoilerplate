@@ -1,0 +1,25 @@
+GEM
+  specs:
+    POpen4 (0.1.4)
+      Platform (>= 0.4.0)
+      open4
+    Platform (0.4.0)
+    chunky_png (1.2.5)
+    compass (0.11.5)
+      chunky_png (~> 1.2)
+      fssm (>= 0.2.7)
+      sass (~> 3.1)
+    fssm (0.2.7)
+    jammit (0.6.3)
+      yui-compressor (>= 0.9.3)
+    open4 (1.2.0)
+    sass (3.1.10)
+    yui-compressor (0.9.6)
+      POpen4 (>= 0.1.4)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  compass
+  jammit

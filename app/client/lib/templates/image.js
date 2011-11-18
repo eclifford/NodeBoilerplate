@@ -1,0 +1,1 @@
+function (data) { return func(data, _) };
