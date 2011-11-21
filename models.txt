@@ -114,6 +114,82 @@ app.get('/sessions/destroy', functioN(req, res) {
 	delete req.session.user
 	res.redirect('/sessions/new');
 })
+
+
+/app/
+	/views/
+	/controllers/
+	/models/
+	app.js
+/config/
+/docs/
+/logs/
+/public/
+/spec/
+/tests/
+/libs/
+/vendor/
+
+
+
+
+* coffee watch on /src -> /lib
+* compass or jade on 
+/app/
+	/lib/
+		/client/
+			/controllers/
+			/models/
+			/templates/
+			/views/
+			app.js
+		/server/
+			/controllers/
+			/models/
+			/views/
+			server.js
+	/src/
+		/client/
+			/controllers/
+			/models/
+			/templates/
+				/index1.html/
+				/index2.html/
+				/index3.html/
+			/views/
+			app.coffee
+		/server/
+			/controllers/
+			/models/
+			/modules/
+				/class1/
+				/class2/
+				/class3/
+			server.coffee
+/config/
+/docs/
+/logs/
+/public/
+	/assets/
+		/images/
+		/videos/
+	/stylesheets/
+		/stylus/
+		/scss/
+		stylus.css
+		scss.css
+	/javascripts/
+		/libs/
+
+
+/spec/
+/tests/
+/tmp/
+Gemfile
+package.json
+bootstrap.coffee
+README.md
+nodemon.ignore
 		
 
 

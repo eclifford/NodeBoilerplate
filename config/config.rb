@@ -2,12 +2,12 @@
 
 # Set this to the root of your project when deployed:
 http_path = "/"
-css_dir = "public/stylesheets/lib"
-sass_dir = "public/stylesheets/src"
-images_dir = "public/images"
+css_dir = "public/stylesheets"
+sass_dir = "public/stylesheets/scss"
+images_dir = "public/assets/images"
 javascripts_dir = "public/javascripts"
 http_images_path = "/images"
-http_stylesheets_path = "/stylesheets/lib"
+http_stylesheets_path = "/stylesheets"
 http_javascripts_path = "/javascripts"
 output_style = :compressed
 

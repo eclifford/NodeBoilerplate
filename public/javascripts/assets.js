@@ -2016,7 +2016,7 @@ replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
       return _.bindAll(this, "render", "imageClick");
     },
     render: function() {
-      $(this.el).html(window.templates['image'](this.model.toJSON()));
+      $(this.el).html(window.JST['image'](this.model.toJSON()));
       return this;
     }
   });
@@ -2118,17 +2118,15 @@ replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
   });
 }).call(this);
 
-window.templates || (window.templates = {});
-window.templates['image'] = function(obj) {
-var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<div class="front">\n\t<img src=\'', images.thumbnail.url ,'\' />\n</div>\n<div class="back" style=\'background-position: -', xpos ,'px -', ypos ,'px\'>\n</div>\n');}return __p.join('');
-};
-window.templates || (window.templates = {});
-window.templates['test'] = function(obj) {
-var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('test tes test testss');}return __p.join('');
-};
 (function() {
   (function($) {
     var view;
     return view = new AppView();
   })(jQuery);
 }).call(this);
+(function(){
+window.JST = window.JST || {};
+var template = function(str){var fn = new Function('obj', 'var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push(\''+str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/<%=([\s\S]+?)%>/g,function(match,code){return "',"+code.replace(/\\'/g, "'")+",'";}).replace(/<%([\s\S]+?)%>/g,function(match,code){return "');"+code.replace(/\\'/g, "'").replace(/[\r\n\t]/g,' ')+"__p.push('";}).replace(/\r/g,'\\r').replace(/\n/g,'\\n').replace(/\t/g,'\\t')+"');}return __p.join('');");return fn;};
+window.JST['image'] = template('<div class="front">\n	<img src=\'<%= images.thumbnail.url %>\' />\n</div>\n<div class="back" style=\'background-position: -<%= xpos %>px -<%= ypos %>px\'>\n</div>\n');
+window.JST['test'] = template('test tes test test');
+})();

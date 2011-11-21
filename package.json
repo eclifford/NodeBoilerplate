@@ -1,6 +1,6 @@
 {
     "name": "NodeBoilerplate"
-  , "version": "0.0.1"
+  , "version": "0.0.3"
   , "author": "Eric Clifford"
   , "description": ""
   , "private": true
@@ -11,7 +11,7 @@
     , "file": "0.1.1"
     , "glob": "2.0.9"
     , "settings": "0.0.2"
-    , "underscore": "1.1.7"
+    , "underscore": "1.2.2"
     , "watch-tree": "0.1.1"
     , "instagram-node-lib": "0.0.7"
   }
