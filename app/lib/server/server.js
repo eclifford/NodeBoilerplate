@@ -6,7 +6,6 @@
   settings = new Settings("" + __dirname + "/config/settings").getEnvironment();
   watcher = new Watcher(settings.watcherOptions);
   app = module.exports = express.createServer();
-  require(__dirname + '/config/enviroment')(app, express, settings, watcher);
-  require(__dirname + '/controllers/routes')(app);
+  require("" + __dirname + "/bootstrap").boot(app, settings, watcher);
   app.listen(3000);
 }).call(this);

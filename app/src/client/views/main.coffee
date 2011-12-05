@@ -53,7 +53,6 @@ window.AppView = Backbone.View.extend(
     t = this
     $("#instagramapp").html ""
     items.each (item) ->
-      console.log "item: ", item
       t.appendItem item
 
     this
@@ -68,7 +67,6 @@ window.AppView = Backbone.View.extend(
         xpos: column * 150
         ypos: row * 150
 
-      console.log item
       t.appendItem item
 
   appendItem: (item) ->

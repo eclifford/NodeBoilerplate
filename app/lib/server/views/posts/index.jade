@@ -1,0 +1,46 @@
+div#posts
+	- each post in posts
+		div.post
+			div.postDate
+				div.postDateBox
+					div.poster
+						- if(post.user)
+							img(src='http://graph.facebook.com/#{post.user.facebookId}/picture', style='border: solid 1px #666')
+					div.day
+						!= post.formattedDateUpdatedDay
+					div.montYear
+						!= post.formattedDateUpdatedMonth
+				div.postCommentBox
+						a(href='/posts/'+post._id)= post.comments.length
+			div.postContent
+				div.postTitle
+					a(href='/posts/'+post._id)!= post.title
+				div.postCredit
+					- if(post.user) 
+						| posted by 
+						a(href='')!= post.user.name
+				div.tags
+					ul.taglist
+						- each tag in post.tags
+							li 
+								!= tag.name
+					div.clear
+				div.postBody!= post.body
+		div.clear
+	p total: #{total}
+	p page: #{page}
+	p pages: #{pages}
+
+div#sideBar
+	h1
+		| Tags
+	div.tags
+		ul.tagcloud
+
+script
+	$(function() {
+		var view = new TagListView()
+	});
+
+
+

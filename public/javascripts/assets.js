@@ -1999,6 +1999,14 @@ replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
 }).call(this);
 
 (function() {
+  window.Tag = Backbone.Model.extend({});
+  window.TagList = Backbone.Collection.extend({
+    model: Tag,
+    url: "/tags"
+  });
+}).call(this);
+
+(function() {
   window.ImageView = Backbone.View.extend({
     className: "cube",
     template: $("#image-template"),
@@ -2087,7 +2095,6 @@ replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
       t = this;
       $("#instagramapp").html("");
       items.each(function(item) {
-        console.log("item: ", item);
         return t.appendItem(item);
       });
       return this;
@@ -2104,7 +2111,6 @@ replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
           xpos: column * 150,
           ypos: row * 150
         });
-        console.log(item);
         return t.appendItem(item);
       });
     },
@@ -2119,6 +2125,59 @@ replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
 }).call(this);
 
 (function() {
+
+}).call(this);
+
+(function() {
+  window.TagListView = Backbone.View.extend({
+    el: "ul.tagcloud",
+    initialize: function() {
+      var t;
+      _.bindAll(this, "render", "appendItem");
+      this.collection = new window.TagList();
+      t = this;
+      this.collection.fetch({
+        success: function() {
+          return t.render();
+        },
+        failure: function() {
+          return alert("fail");
+        }
+      });
+      this.collection.bind("add", this.appendItem);
+      return this.render();
+    },
+    render: function() {
+      var t;
+      t = this;
+      return _(this.collection.models).each(function(item, index) {
+        return t.appendItem(item);
+      });
+    },
+    appendItem: function(item) {
+      var view;
+      view = new TagView({
+        model: item
+      });
+      console.log('appendItem', item);
+      console.log(view);
+      return $(this.el).append(view.render().el);
+    }
+  });
+  window.TagView = Backbone.View.extend({
+    tagName: 'li',
+    initialize: function() {
+      return _.bindAll(this, "render");
+    },
+    render: function() {
+      console.log('rendering');
+      $(this.el).html(window.JST['tag'](this.model.toJSON()));
+      return this;
+    }
+  });
+}).call(this);
+
+(function() {
   (function($) {
     var view;
     return view = new AppView();
@@ -2127,6 +2186,8 @@ replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
 (function(){
 window.JST = window.JST || {};
 var template = function(str){var fn = new Function('obj', 'var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push(\''+str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/<%=([\s\S]+?)%>/g,function(match,code){return "',"+code.replace(/\\'/g, "'")+",'";}).replace(/<%([\s\S]+?)%>/g,function(match,code){return "');"+code.replace(/\\'/g, "'").replace(/[\r\n\t]/g,' ')+"__p.push('";}).replace(/\r/g,'\\r').replace(/\n/g,'\\n').replace(/\t/g,'\\t')+"');}return __p.join('');");return fn;};
+window.JST['comment'] = template('<div class=\'comment\'>\n	<div class=\'commentAuthorImage\' style=\'float: left; margin-right: 12px\'>\n		<img src=\'http://graph.facebook.com/<%= user.facebookId %>/picture\'/>\n	</div>\n	<div class=\'commentAuthor\' style=\'font-weight: bold\'>\n		<%= user.name %>\n	</div>\n	<div class=\'commentDate\'>\n		<%= dateCreated %>\n	</div>\n	<div class=\'commentBody\'>\n		<%= body %>\n	</div>\n</div>		\n');
 window.JST['image'] = template('<div class="front">\n	<img src=\'<%= images.thumbnail.url %>\' />\n</div>\n<div class="back" style=\'background-position: -<%= xpos %>px -<%= ypos %>px\'>\n</div>\n');
+window.JST['tag'] = template('<%= name %>\n ');
 window.JST['test'] = template('test tes test test');
 })();

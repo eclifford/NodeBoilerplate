@@ -63,7 +63,6 @@
       t = this;
       $("#instagramapp").html("");
       items.each(function(item) {
-        console.log("item: ", item);
         return t.appendItem(item);
       });
       return this;
@@ -80,7 +79,6 @@
           xpos: column * 150,
           ypos: row * 150
         });
-        console.log(item);
         return t.appendItem(item);
       });
     },

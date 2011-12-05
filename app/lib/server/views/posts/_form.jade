@@ -1,0 +1,19 @@
+p
+	label(for='post_title') Title
+p
+	input(type='text', name='post[title]', value=post.title, style='width: 600px')
+p
+	label(for'post_tags') Tags
+p
+	input(type='text', id='tags', name='post[tags]', value=post.tags, style='width: 600px')
+p
+	label(for='post_body') Body
+p
+	textarea(type='text', name='post[body]', style='width: 600px; height: 600px')= post.body
+p
+	input(type='submit')
+
+script
+	$(function() {
+		$('#tags').tagsInput();
+	});

@@ -1,0 +1,32 @@
+!!!
+html
+	head
+		title= title
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		link(href='http://fonts.googleapis.com/css?family=Varela+Round', rel='stylesheet', type='text/css')
+		link(rel='stylesheet', href='/stylesheets/syntaxhighlighter/shCore.css')
+		link(rel='stylesheet', href='/stylesheets/syntaxhighlighter/shThemeRDark.css')
+		link(rel='stylesheet', href='/stylesheets/jquery-tags/jquery.tagsinput.css')
+		script(src='/javascripts/assets.js')
+		script(src='/javascripts/syntaxhighlighter/shCore.js')
+		script(src='/javascripts/syntaxhighlighter/shBrushJScript.js')
+		script(src='/javascripts/jquery-tags/jquery.tagsinput.min.js')
+	body
+		div#header 
+			a(href='/posts/')
+				img(src='/assets/images/logo.png')
+
+		div#loginStatus
+			- if(everyauth.loggedIn)
+				img(src="http://graph.facebook.com/#{everyauth.facebook.user.id}/picture", style='border: solid 1px #ccc')
+				//- p= JSON.stringify(everyauth.facebook.user)
+				br
+				a(href='/logout') Logout
+
+			- else
+				a(href='/auth/facebook') Login
+
+		div#content!= body
+		div#footer
+		script
+			SyntaxHighlighter.all()

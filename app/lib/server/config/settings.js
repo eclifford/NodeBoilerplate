@@ -21,7 +21,7 @@
       package: 'config/jammit.yml',
       packageOut: 'public/javascripts',
       paths: {
-        'app/src/lib/**/*.*': {},
+        'app/lib/client/views/tags.js': {},
         'app/src/client/templates/**/*.html': {}
       }
     }

@@ -1,0 +1,9 @@
+h1 Editing #{post.title}
+form(action='/posts/'+post.id, method='POST')
+	input(type='hidden', name='_method', value='PUT')
+	div!= partial('_form', {post: post})
+
+script
+	$(function() {
+		
+	});

@@ -1,0 +1,77 @@
+div.post
+	div.postDate
+		div.postDateBox
+			div.poster
+				- if(post.user)
+					img(src='http://graph.facebook.com/#{post.user.facebookId}/picture', style='border: solid 1px #666')
+			div.day
+				!= post.formattedDateUpdatedDay
+			div.montYear
+				!= post.formattedDateUpdatedMonth
+		div.postCommentBox
+			a(href='/posts/'+post._id)= post.comments.length
+	div.postContent
+		div.postTitle
+			a(href='/posts/'+post._id)!= post.title
+		div.postCredit
+			- if(post.user) 
+				| posted by 
+				a(href='')!= post.user.name
+		div.tags
+			ul.taglist
+				- each tag in post.tags
+					li 
+						!= tag.name
+			div.clear
+		div.postBody!= post.body
+		div.clear
+		div.moderate
+			a(href='/posts/'+post.id+'/edit') Edit
+			| 
+			a#delete(href='/posts/'+post.id+'/delete') Delete
+		div.addComment
+			form#addCommentForm()
+				p
+					label(for='comment_body') Add Comment
+				p
+					textarea(type='text', name='comment[body]', style='width: 600px')
+				p
+					input#btnSubmitComment(type='submit')
+		div.comments
+			- each comment in post.comments
+					div.comment
+						- if(comment.user)
+							div.commentAuthorImage(style='float: left; margin-right: 12px')
+								img(src='http://graph.facebook.com/#{comment.user.facebookId}/picture')
+							div.commentAuthor(style='font-weight: bold')!= comment.user.name
+						div.commentDate
+							| posted on
+							!= comment.dateCreated
+						div.commentBody
+							!= comment.body
+
+
+script 
+	$(function() {
+		$('#delete').click(function(event) {
+			event.preventDefault();
+			var url = $('#delete').attr("href");
+			$.post(url, function(data) {
+				window.location = '/posts/'
+				//alert('deleted');
+			});
+		});
+		$('#btnSubmitComment').click(function(event) {
+			event.preventDefault();
+			$.ajax({
+				type: 'POST',
+				url: "/posts/#{post.id}/addComment",
+				data: $('#addCommentForm').serialize(),
+				success: function(res) {
+					//alert(res);
+					console.log(res);
+					$('.comments').append(window.JST['comment'](res));
+				}
+			});
+		});
+	});
