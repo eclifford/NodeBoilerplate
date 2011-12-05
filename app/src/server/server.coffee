@@ -1,12 +1,27 @@
 express  = require 'express'
-Watcher  = require("#{__dirname}/modules/watcher/watcher").watcher
-Settings = require 'settings'
-
-settings  = new Settings("#{__dirname}/config/settings").getEnvironment()
-watcher   = new Watcher settings.watcherOptions
+everyauth    = require 'everyauth'
+Promise      = everyauth.Promise
+UserManager  = require './models/userManager'
 
 app = module.exports = express.createServer()
+require("#{__dirname}/bootstrap").boot app
 
-require("#{__dirname}/bootstrap").boot app, settings, watcher
+everyauth.facebook
+  .appId('210255805715462')
+  .appSecret('bcbc06923e65fedcdd62de0f6c16b632')
+  .findOrCreateUser (session, accessToken, accessTokExtra, fbUserMetadata) ->
+    promise = new Promise();
+    userManager = UserManager.create()
+    userManager.findOrCreateUserByFacebookData(fbUserMetadata, (err, user) ->
+      promise.fulfill(user)
+    )
+    return promise
+  .redirectPath('/posts')
 
+everyauth.everymodule.findUserById (userId, callback) ->
+  userManager = UserManager.create()
+  userManager.getById userId, callback
+
+
+everyauth.helpExpress(app)
 app.listen(3000)

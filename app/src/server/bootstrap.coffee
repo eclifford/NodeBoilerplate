@@ -5,7 +5,25 @@ Settings    = require 'settings'
 Watcher     = require("#{__dirname}/modules/watcher/watcher").watcher
 settings    = new Settings("#{__dirname}/settings").getEnvironment()
 watcher     = new Watcher settings.watcherOptions 
-facbookAuth = require "#{__dirname}/modules/auth/facebook"
+everyauth    = require 'everyauth'
+Promise      = everyauth.Promise
+UserManager  = require './models/userManager'
+
+everyauth.facebook
+  .appId('210255805715462')
+  .appSecret('bcbc06923e65fedcdd62de0f6c16b632')
+  .findOrCreateUser (session, accessToken, accessTokExtra, fbUserMetadata) ->
+    promise = new Promise();
+    userManager = UserManager.create()
+    userManager.findOrCreateUserByFacebookData(fbUserMetadata, (err, user) ->
+      promise.fulfill(user)
+    )
+    return promise
+  .redirectPath('/posts')
+
+everyauth.everymodule.findUserById (userId, callback) ->
+  userManager = UserManager.create()
+  userManager.getById userId, callback
 
 exports.boot = (app) ->
   bootApplication(app)
@@ -25,15 +43,8 @@ bootApplication = (app) ->
     app.use express.methodOverride()
     app.use express.cookieParser maxAge: settings.cookieMaxAge
     app.use express.session secret: settings.cookieSecret
-    app.use app.router
     app.use everyauth.middleware()
     app.use express.logger()
-
-    app.use (err, req, res, next) ->
-     res.render('500')
-
-    app.use (req, res) ->
-     res.render('404')
 
     # Dynamic view helpers
     app.dynamicHelpers

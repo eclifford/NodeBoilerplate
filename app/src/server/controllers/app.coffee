@@ -16,6 +16,12 @@ module.exports = (app) ->
         res.json media
       error: (errorMessage, errorObject, caller) ->
         console.log errorMessage 
+
+  app.use (err, req, res, next) ->
+   res.render('500')
+
+  app.use (req, res) ->
+   res.render('404')
   
   # app.get '/tags', (req, res) ->
   #   tagManager = TagManager.create()

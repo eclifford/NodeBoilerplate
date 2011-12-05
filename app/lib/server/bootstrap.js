@@ -1,5 +1,5 @@
 (function() {
-  var Settings, Watcher, bootApplication, bootControllers, bootDepedencies, everyauth, express, facbookAuth, fs, settings, watcher;
+  var Promise, Settings, UserManager, Watcher, bootApplication, bootControllers, bootDepedencies, everyauth, express, fs, settings, watcher;
   fs = require('fs');
   express = require('express');
   everyauth = require('everyauth');
@@ -7,7 +7,23 @@
   Watcher = require("" + __dirname + "/modules/watcher/watcher").watcher;
   settings = new Settings("" + __dirname + "/settings").getEnvironment();
   watcher = new Watcher(settings.watcherOptions);
-  facbookAuth = require("" + __dirname + "/modules/auth/facebook");
+  everyauth = require('everyauth');
+  Promise = everyauth.Promise;
+  UserManager = require('./models/userManager');
+  everyauth.facebook.appId('210255805715462').appSecret('bcbc06923e65fedcdd62de0f6c16b632').findOrCreateUser(function(session, accessToken, accessTokExtra, fbUserMetadata) {
+    var promise, userManager;
+    promise = new Promise();
+    userManager = UserManager.create();
+    userManager.findOrCreateUserByFacebookData(fbUserMetadata, function(err, user) {
+      return promise.fulfill(user);
+    });
+    return promise;
+  }).redirectPath('/posts');
+  everyauth.everymodule.findUserById(function(userId, callback) {
+    var userManager;
+    userManager = UserManager.create();
+    return userManager.getById(userId, callback);
+  });
   exports.boot = function(app) {
     bootApplication(app);
     bootControllers(app);
@@ -30,15 +46,8 @@
       app.use(express.session({
         secret: settings.cookieSecret
       }));
-      app.use(app.router);
       app.use(everyauth.middleware());
       app.use(express.logger());
-      app.use(function(err, req, res, next) {
-        return res.render('500');
-      });
-      app.use(function(req, res) {
-        return res.render('404');
-      });
       return app.dynamicHelpers({
         request: function(req) {
           return req;

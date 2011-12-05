@@ -48,9 +48,6 @@ class UserManager
 			callback null, user
 		) 
 			
-		
-			
-	
 module.exports.create = ->
 	return new UserManager()
 

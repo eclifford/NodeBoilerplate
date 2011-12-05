@@ -9,7 +9,7 @@
         title: "My Page Bitch"
       });
     });
-    return app.get("/instagram/popular", function(req, res) {
+    app.get("/instagram/popular", function(req, res) {
       console.log(req.user);
       return Instagram.users.self({
         access_token: '2991386.b348171.7d1f8edf197d466c8b1539123a8fea2e',
@@ -20,6 +20,12 @@
           return console.log(errorMessage);
         }
       });
+    });
+    app.use(function(err, req, res, next) {
+      return res.render('500');
+    });
+    return app.use(function(req, res) {
+      return res.render('404');
     });
   };
 }).call(this);
